@@ -62,13 +62,15 @@ A leaderboard page summarizes who has the most contributions and by which catego
 
 ![an ERD of my project](./ERD.drawio.png)
 
-### APIs
+### APIs and other TECHNOLOGY
 
 To find representatives and senators from a user's state, Google's Civic Information API will be used.
 
 To track stock transaction of the officials, Quiver API will be used. Shoutout ot QuiverQuant!
 
 To get background information on the officials, Wikiepedia API will be used. Shoutout to Wikipedia! Consider donating if you haven't already.
+
+Plotly.js to make charts, graphs, and other cool views of data.
 
 ### MVP
 
