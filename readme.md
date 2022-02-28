@@ -28,7 +28,7 @@ As a user, I want to:
 ![wireframe of watchlist page](./Watchlist_Wireframe.drawio.png)
 
 ### DETAILED OFFICIAL PAGE
-![wireframe of detailed official page](./Detailed_Official.drawio.png)
+![wireframe of detailed official page](./Detailed_Official_Wireframe.drawio.png)
 
 ### LEADERBOARD
 ![wireframe of leaderboard page](./Leaderboard_Wireframe.drawio.png)
