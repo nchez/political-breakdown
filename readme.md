@@ -11,29 +11,35 @@ As a user, I want to:
 - Go to my profile (user) page and view my watchlist
 - Click on official's name to go to a breakdown page of the candidate
   - View their stock portfolio, stock transactions
-  - More information on the candiate (party, wiki link, link to their socials and their website, ...) 
+  - More information on the candiate (party, wiki link, link to their socials and their website, ...)
 
 ## WIREFRAMEs (WIP)
 
 ### NOTE: REPLACE 'CONTRIBUTIONS' WITH 'STOCKS' IN THE WIREFRAMES BELOW
 
 ### WELCOME PAGE
-![wireframe of welcome page](./Welcome_page_Wireframe.drawio.png)
+
+![wireframe of welcome page](./readme_docs/Welcome_page_Wireframe.drawio.png)
 
 ### LOGIN PAGE
-![wireframe of login page](./Login2_Wireframe.drawio.png)
+
+![wireframe of login page](./readme_docs/Login2_Wireframe.drawio.png)
 
 ### SIGN-UP PAGE
-![wireframe of signup page](./Sign-up_Wireframe.drawio.png)
+
+![wireframe of signup page](./readme_docs/Sign-up_Wireframe.drawio.png)
 
 ### WATCHLIST PAGE
-![wireframe of watchlist page](./Watchlist_Wireframe.drawio.png)
+
+![wireframe of watchlist page](./readme_docs/Watchlist_Wireframe.drawio.png)
 
 ### DETAILED OFFICIAL PAGE
-![wireframe of detailed official page](./Detailed_Official_Wireframe.drawio.png)
+
+![wireframe of detailed official page](./readme_docs/Detailed_Official_Wireframe.drawio.png)
 
 ### LEADERBOARD
-![wireframe of leaderboard page](./Leaderboard_Wireframe.drawio.png)
+
+![wireframe of leaderboard page](./readme_docs/Leaderboard_Wireframe.drawio.png)
 
 ## BACKGROUND
 
@@ -47,16 +53,16 @@ A leaderboard page summarizes who has the most contributions and by which catego
 
 ### ROUTES
 
-|HTTP VERB|ROUTE                    |ACTION|USED FOR                     |
-|---------|-------------------------|------|---------------------------- |
-|GET      |'/login'                 |index |accessing log-in page        |
-|GET      |'/signup'                |index |accessing sign-up page       | 
-|GET      |'user/:id/watchlist'     |index |accessing watchlist page     |
-|GET      |'/leaderboard'           |index |accessing leaderboard page   |
-|GET      |'/:fedofficialid'        |index |accessing person page        |
-|POST     |'/user/:id/watchlist/new'|create|add person to watchlist      |
-|DELETE   |'/user/:id/watchlist'    |delete|remove person from watchlist |
-|PUT      |'/user/:id/watchlist'    |update|replace person in watchlist  |
+| HTTP VERB | ROUTE                     | ACTION | USED FOR                     |
+| --------- | ------------------------- | ------ | ---------------------------- |
+| GET       | '/login'                  | index  | accessing log-in page        |
+| GET       | '/signup'                 | index  | accessing sign-up page       |
+| GET       | 'user/:id/watchlist'      | index  | accessing watchlist page     |
+| GET       | '/leaderboard'            | index  | accessing leaderboard page   |
+| GET       | '/:fedofficialid'         | index  | accessing person page        |
+| POST      | '/user/:id/watchlist/new' | create | add person to watchlist      |
+| DELETE    | '/user/:id/watchlist'     | delete | remove person from watchlist |
+| PUT       | '/user/:id/watchlist'     | update | replace person in watchlist  |
 
 ### ERD
 
@@ -84,4 +90,3 @@ Plotly.js to make charts, graphs, and other cool views of data.
 - Detailed stock page with which officials own stocks and transaction history of stock
 - Leaderboards page with who has made the most trades and other cool stats
 - Cool dashboard page with quick info and stats
-
