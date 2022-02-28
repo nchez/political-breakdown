@@ -58,3 +58,25 @@ A leaderboard page summarizes who has the most contributions and by which catego
 ### ERD
 
 ![an ERD of my project](./ERD.drawio.png)
+
+### APIs
+
+To find representatives and senators from a user's state, Google's Civic Information API will be used.
+
+To track stock transaction of the officials, Quiver API will be used. Shoutout ot QuiverQuant!
+
+To get background information on the officials, Wikiepedia API will be used. Shoutout to Wikipedia! Consider donating if you haven't already.
+
+### MVP
+
+- Create login, signup, logout pages for users.
+- Create editable watchlist for users that will track officials.
+- Detailed stock transaction page with info on official
+
+### STRETCH
+
+- Create editable watchlist for users that will track stocks
+- Detailed stock page with which officials own stocks and transaction history of stock
+- Leaderboards page with who has made the most trades and other cool stats
+- Cool dashboard page with quick info and stats
+
