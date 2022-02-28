@@ -10,10 +10,12 @@ As a user, I want to:
   - Clicking 'DELETE' or 'ADD' to perform the respective action on the list
 - Go to my profile (user) page and view my watchlist
 - Click on official's name to go to a breakdown page of the candidate
-  - View their total contributions, breakdown of their contributions (i.e. individual vs corporations vs PAC)
+  - View their stock portfolio, stock transactions
   - More information on the candiate (party, wiki link, link to their socials and their website, ...) 
 
 ## WIREFRAMEs (WIP)
+
+### NOTE: REPLACE 'CONTRIBUTIONS' WITH 'STOCKS' IN THE WIREFRAMES BELOW
 
 ### WELCOME PAGE
 ![wireframe of welcome page](./Login\ Wireframe.drawio.png)
@@ -37,7 +39,7 @@ As a user, I want to:
 
 Ever wonder who's contributing to the really hip and cool politicians?? Well look no further than the Politcal Breakdown web app!
 
-Track who is contributing to your favorite local and federal politicians! Add and delete from your watchlist to track those devious officials who are definitely voting with our best interests in mind!
+Track what stocks your favorite local and federal politicians are trading! Add and delete from your watchlist to track those devious officials who are definitely voting with our best interests in mind!
 
 A leaderboard page summarizes who has the most contributions and by which category.
 
@@ -45,15 +47,16 @@ A leaderboard page summarizes who has the most contributions and by which catego
 
 ### ROUTES
 
-|HTTP VERB|ROUTE                    |ACTION|USED FOR                    |
-|---------|-------------------------|------|----------------------------|
-|GET      |'/login'                 |index |accessing log-in page       |
-|GET      |'/signup'                |index |accessing sign-up page      | 
-|GET      |'user/:id/watchlist'     |index |accessing watchlist page    |
-|GET      |'/leaderboard'           |index |accessing leaderboard page  |
-|POST     |'/user/:id/watchlist/new'|create|add person to watchlist     |
-|DELETE   |'/user/:id/watchlist'    |delete|remove person from watchlist|
-|PUT      |'/user/:id/watchlist'    |update|replace person in watchlist |
+|HTTP VERB|ROUTE                    |ACTION|USED FOR                     |
+|---------|-------------------------|------|---------------------------- |
+|GET      |'/login'                 |index |accessing log-in page        |
+|GET      |'/signup'                |index |accessing sign-up page       | 
+|GET      |'user/:id/watchlist'     |index |accessing watchlist page     |
+|GET      |'/leaderboard'           |index |accessing leaderboard page   |
+|GET      |'/:fedofficialid'        |index |accessing person page        |
+|POST     |'/user/:id/watchlist/new'|create|add person to watchlist      |
+|DELETE   |'/user/:id/watchlist'    |delete|remove person from watchlist |
+|PUT      |'/user/:id/watchlist'    |update|replace person in watchlist  |
 
 ### ERD
 
