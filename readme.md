@@ -18,7 +18,7 @@ As a user, I want to:
 ### NOTE: REPLACE 'CONTRIBUTIONS' WITH 'STOCKS' IN THE WIREFRAMES BELOW
 
 ### WELCOME PAGE
-![wireframe of welcome page](./Login Wireframe.drawio.png)
+![wireframe of welcome page](./Welcome_page_Wireframe.drawio.png)
 
 ### LOGIN PAGE
 ![wireframe of login page](./Login2_Wireframe.drawio.png)
