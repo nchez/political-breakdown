@@ -66,7 +66,7 @@ A leaderboard page summarizes who has the most contributions and by which catego
 
 ### ERD
 
-![an ERD of my project](./ERD.drawio.png)
+![an ERD of my project](./readme_docs/ERD.drawio.png)
 
 ### APIs and other TECHNOLOGY
 
