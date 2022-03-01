@@ -1,1 +1,11 @@
-sequelize model:create --name fave --attributes title:string,imdbId:string
+// Create senator, representative model
+sequelize model:create --name official  --attributes name:string,position:string,state:string,party:string
+
+// Create stock model
+sequelize model:create --name stock --attributes name:string,symbol:string
+
+// M:M for officials_users
+sequelize model:create --name users_officials --attributes userId:integer,officialId:integer
+
+// M:M for users_stocks
+sequelize model:create --name users_stocks --attributes userId:integer,stockId:integer
