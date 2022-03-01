@@ -1,0 +1,4 @@
+curl -X GET "https://api.quiverquant.com/beta/historical/senatetrading/aapl" 
+-H "accept: application/json" 
+-H "X-CSRFToken: TyTJwjuEC7VV7mOqZ622haRaaUr0x0Ng4nrwSRFKQs7vdoBcJlK9qjAS69ghzhFu" 
+-H 'Authorization: Token {Your Authorization Token}'
