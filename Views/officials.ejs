@@ -1,0 +1,52 @@
+<h1>SEARCH FOR REPRESENTATIVE OR SENATOR</h1>
+
+<form action="/officials" method="POST">
+  <div class="form-group">
+    <label for="name">SEARCH BY NAME</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      value="<%= nameField%>"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="state">SEARCH BY STATE</label>
+    <select name="state" id="state" class="form-control">
+      <option value=""></option>
+      <% statesArr.forEach(function(state) { %>
+      <option value="<%= state %>"><%= state %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="position">SEARCH BY POSITION (REPRESENTATIVE OR SENATOR)</label>
+    <select name="position" id="position" class="form-control">
+      <option value=""></option>
+      <option value="REP">REP</option>
+      <option value="SEN">SEN</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="position">SEARCH BY PARTY</label>
+    <select name="position" id="position" class="form-control">
+      <option value=""></option>
+      <option value="D">D</option>
+      <option value="R">R</option>
+      <option value="I">I</option>
+    </select>
+  </div>
+  <input type="submit" class="btn btn-primary" />
+</form>
+
+<ul>
+  <% nameArray.forEach(element => { %>
+  <li><%= element %></li>
+  <form action="/users/watchlist" method="POST">
+    <button type="button">Add to Watchlist</button>
+  </form>
+  <% }) %>
+</ul>

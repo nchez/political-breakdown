@@ -90,6 +90,7 @@ const config = {
 
 // CONTROLLERS
 app.use("/users", require("./controllers/users.js"));
+app.use("/officials", require("./controllers/officials.js"));
 
 // ROUTES
 app.get("/", (req, res) => {

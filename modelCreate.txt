@@ -4,7 +4,7 @@ sequelize model:create --name official  --attributes name:string,position:string
 // Create stock model
 sequelize model:create --name stock --attributes name:string,symbol:string
 
-// M:M for officials_users
+// M:M for users_officials
 sequelize model:create --name users_officials --attributes userId:integer,officialId:integer
 
 // M:M for users_stocks

@@ -70,6 +70,8 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/users/watchlist", async (req, res) => {});
+
 router.get("/logout", (req, res) => {
   console.log("logging out");
   res.clearCookie("userId");
