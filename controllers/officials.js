@@ -5,6 +5,7 @@ const axios = require("axios");
 const app = express(); // create an express instance
 const fs = require("fs");
 
+// DECLARE VARIABLES FOR RENDERING
 let nameArray = [];
 const statesArr = [
   "AL",
@@ -59,9 +60,21 @@ const statesArr = [
   "WY",
 ];
 let nameField;
+let userOfficialsArr = [];
 
-router.get("/", (req, res) => {
-  res.render("officials.ejs", { statesArr: statesArr, nameArray, nameField });
+router.get("/", async (req, res) => {
+  userOfficialsArr = [];
+  const user = await db.user.findByPk(res.locals.user.id);
+  const userOfficials = await user.getOfficials();
+  for (let i = 0; i < userOfficials.length; i++) {
+    userOfficialsArr.push(userOfficials[i].dataValues.name);
+  }
+  res.render("officials.ejs", {
+    statesArr: statesArr,
+    nameArray,
+    nameField,
+    userOfficialsArr: userOfficialsArr,
+  });
 });
 
 // CREATE FUNCTINON FOR CREATING NAMEARRAY AND FILTERING BY STATE
@@ -101,7 +114,13 @@ router.post("/", async (req, res) => {
 });
 */
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+  userOfficialsArr = [];
+  const user = await db.user.findByPk(res.locals.user.id);
+  const userOfficials = await user.getOfficials();
+  for (let i = 0; i < userOfficials.length; i++) {
+    userOfficialsArr.push(userOfficials[i].dataValues.name);
+  }
   nameArray = [];
   fs.readFile("./Resources/openCongress.json", "utf8", (err, data) => {
     const response = JSON.parse(data);
@@ -112,28 +131,24 @@ router.post("/", (req, res) => {
       statesArr: statesArr,
       nameArray: nameArray,
       nameField: req.body.name,
+      userOfficialsArr: userOfficialsArr,
     });
   });
 });
 
 router.post("/add", async (req, res) => {
+  const user = await db.user.findByPk(res.locals.user.id);
   try {
     const [newOfficial, officialCreated] = await db.official.findOrCreate({
       where: {
         name: req.body.name,
       },
     });
-    console.log(req.body.name);
-    const user = await db.user.findByPk(res.locals.user.id);
     await user.addOfficial(newOfficial);
   } catch (err) {
     console.log("ERROR!: ", err);
   }
-  res.render("officials.ejs", {
-    statesArr: statesArr,
-    nameArray,
-    nameField,
-  });
+  res.redirect("/officials");
 });
 
 module.exports = router;

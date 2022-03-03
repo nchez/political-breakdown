@@ -47,7 +47,11 @@
   <li><%= element %></li>
   <form action="/officials/add" method="POST">
     <input hidden type="text" name="name" value="<%= element %>" />
+    <% if (userOfficialsArr.includes(element)) { %>
+    <input type="submit" value="Added" />
+    <% } else { %>
     <input type="submit" value="Add to Watchlist" />
+    <% } %>
   </form>
   <% }) %>
 </ul>
