@@ -45,8 +45,9 @@
 <ul>
   <% nameArray.forEach(element => { %>
   <li><%= element %></li>
-  <form action="/users/watchlist" method="POST">
-    <button type="button">Add to Watchlist</button>
+  <form action="/officials/add" method="POST">
+    <input hidden type="text" name="name" value="<%= element %>" />
+    <input type="submit" value="Add to Watchlist" />
   </form>
   <% }) %>
 </ul>

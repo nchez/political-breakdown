@@ -116,4 +116,24 @@ router.post("/", (req, res) => {
   });
 });
 
+router.post("/add", async (req, res) => {
+  try {
+    const [newOfficial, officialCreated] = await db.official.findOrCreate({
+      where: {
+        name: req.body.name,
+      },
+    });
+    console.log(req.body.name);
+    const user = await db.user.findByPk(res.locals.user.id);
+    await user.addOfficial(newOfficial);
+  } catch (err) {
+    console.log("ERROR!: ", err);
+  }
+  res.render("officials.ejs", {
+    statesArr: statesArr,
+    nameArray,
+    nameField,
+  });
+});
+
 module.exports = router;

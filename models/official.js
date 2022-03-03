@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.official.belongsToMany(models.users, {
+      models.official.belongsToMany(models.user, {
         through: "users_officials",
       });
     }
