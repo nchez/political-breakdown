@@ -58,6 +58,7 @@ const statesArr = [
   "WV",
   "WI",
   "WY",
+  "",
 ];
 let nameField;
 let userOfficialsArr = [];
