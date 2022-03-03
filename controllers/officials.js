@@ -63,6 +63,36 @@ const statesArr = [
 let nameField;
 let userOfficialsArr = [];
 
+// class constructor for official
+class official {
+  constructor(name, position, state, party) {
+    this.name = name;
+    this.position = position;
+    this.state = state;
+    this.party = party;
+  }
+}
+
+function createOfficials(response) {
+  officialsArr = [];
+  for (let i = 0; i < response.results.length; i++) {
+    if (
+      !response.results[i].current_role ||
+      response.results[i].jurisdiction.classification === "municipality"
+    ) {
+      continue;
+    } else {
+      const name = response.results[i].name;
+      const position = response.results[i].current_role.title;
+      const state = response.results[i].jurisdiction.name;
+      const party = response.results[i].party[0];
+      const createOfficial = new official(name, position, state, party);
+      officialsArr.push(createOfficial);
+    }
+  }
+  return officialsArr;
+}
+
 router.get("/", async (req, res) => {
   userOfficialsArr = [];
   const user = await db.user.findByPk(res.locals.user.id);
@@ -125,12 +155,10 @@ router.post("/", async (req, res) => {
   nameArray = [];
   fs.readFile("./Resources/openCongress.json", "utf8", (err, data) => {
     const response = JSON.parse(data);
-    for (let i = 0; i < response.results.length; i++) {
-      nameArray.push(response.results[i].name);
-    }
+    createOfficials(response);
     res.render("officials.ejs", {
       statesArr: statesArr,
-      nameArray: nameArray,
+      officialsArr: officialsArr,
       nameField: req.body.name,
       userOfficialsArr: userOfficialsArr,
     });
@@ -143,6 +171,9 @@ router.post("/add", async (req, res) => {
     const [newOfficial, officialCreated] = await db.official.findOrCreate({
       where: {
         name: req.body.name,
+        position: req.body.position,
+        state: req.body.state,
+        party: req.body.party,
       },
     });
     await user.addOfficial(newOfficial);
