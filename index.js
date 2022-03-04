@@ -33,45 +33,7 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// make class for officials
-
-class official {
-  constructor(name, position, state, party) {
-    this.name = name;
-    this.position = position;
-    this.state = state;
-    this.party = party;
-  }
-}
-
-// grab all current legislators and store in array
-fs.readFile("./Resources/legislators-current.json", "utf8", (err, data) => {
-  currentFeds = [];
-  const jsonCurrent = JSON.parse(data);
-  for (let i = 0; i < jsonCurrent.length; i++) {
-    currentFeds.push(
-      new official(
-        jsonCurrent[i].name.first + " " + jsonCurrent[i].name.last,
-        jsonCurrent[i].terms[jsonCurrent[i].terms.length - 1].type,
-        jsonCurrent[i].terms[jsonCurrent[i].terms.length - 1].state,
-        jsonCurrent[i].terms[jsonCurrent[i].terms.length - 1].party
-      )
-    );
-  }
-});
-
-fs.readFile("./Resources/nasdaq-listed-stocks.json", "utf8", (err, data) => {
-  nasStocks = [];
-  const jsonNAS = JSON.parse(data);
-  for (let i = 0; i < jsonNAS.length; i++) {
-    nasStocks.push(jsonNAS[i]);
-  }
-});
-
-// populate officials table
-
 // QUERY WITH QUIV
-
 // Set up quiver url and headers
 const url = "https://api.quiverquant.com/beta/historical/congresstrading/aapl";
 const config = {
@@ -91,12 +53,12 @@ const config = {
 // ROUTES
 app.get("/", (req, res) => {
   res.render("home.ejs");
-
-  // CONTROLLERS
-  app.use("/users", require("./controllers/users.js"));
-  app.use("/officials", require("./controllers/officials.js"));
-  app.use("/stocks", require("./controllers/stocks.js"));
 });
+
+// CONTROLLERS
+app.use("/users", require("./controllers/users.js"));
+app.use("/officials", require("./controllers/officials.js"));
+app.use("/stocks", require("./controllers/stocks.js"));
 
 // check for an env PORT, otherwise use 8000
 const PORT = process.env.PORT || 3002;

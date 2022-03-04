@@ -9,157 +9,71 @@ const fs = require("fs");
 let nameField;
 let userStocksArr = [];
 let stocksArr = [];
+let results = [];
 
 // class constructor for stock
 class stock {
-  constructor(name, ticker) {
+  constructor(name, symbol) {
     this.name = name;
-    this.ticker = ticker;
+    this.symbol = symbol;
   }
 }
 
 function createStock(response) {
   stocksArr = [];
   for (let i = 0; i < response.results.length; i++) {
-    if (
-      !response.results[i].current_role ||
-      response.results[i].jurisdiction.classification === "municipality"
-    ) {
-      continue;
-    } else {
-      const name = response.results[i].name;
-      const position = response.results[i].current_role.title;
-      const state = response.results[i].jurisdiction.name;
-      const party = response.results[i].party[0];
-      const createOfficial = new official(name, position, state, party);
-      officialsArr.push(createOfficial);
-    }
+    const name = response.result[i].name;
+    const symbol = response.symbol;
+    const createStock = new official(name, symbol);
+    stocksArr.push(createStock);
   }
-  return officialsArr;
+  return stocksArr;
 }
 
-router.get("/", async (req, res) => {
-  userOfficialsArr = [];
-  const user = await db.user.findByPk(res.locals.user.id);
-  const userOfficials = await user.getOfficials();
-  for (let i = 0; i < userOfficials.length; i++) {
-    userOfficialsArr.push(userOfficials[i].dataValues.name);
+// const urlFinn = `https://finnhub.io/api/v1/search?q=Apple&token=${process.env.FINN_API_KEY}`;
+// const responseFinn = await axios.get(urlFinn);
+// console.log(response.data.result);
+fs.readFile(
+  "./Resources/nasdaq-listed-stocks.json",
+  "utf8",
+  async (err, data) => {
+    await JSON.parse(data);
   }
-  res.render("officials.ejs", {
-    statesArr: statesArr,
-    nameArray,
-    nameField,
-    officialsArr: officialsArr,
-    userOfficialsArr: userOfficialsArr,
-  });
+);
+
+router.get("/", (req, res) => {
+  res.render("stocks.ejs", { results: results });
 });
 
-// CREATE FUNCTINON FOR CREATING NAMEARRAY AND FILTERING BY STATE
-// function filterCongressMembers(response, state, position, party) {
-//     for (let i = 0; i < response.data.results.length; i++) {
-//         nameArray.push(response.data.results[i].name);
-//       }
-//     if (state!= null) {
-//         for
-//     }
-// }
+// fs.readFile(
+//   "./Resources/nasdaq-listed-stocks.json",
+//   "utf8",
+//   async (err, data) => {
+//     const nasStocks = await JSON.parse(data);
+//     const results = nasStocks.filter((element) =>
+//       element["Company Name"].toLowerCase().includes("appl")
+//     );
+//   }
+// );
 
-/* COMMENTED OUT DUE TO 504 (too many requests)
-router.post("/", async (req, res) => {
-  nameArray = [];
-  const config = {
-    headers: {
-      accept: "application/json",
-    },
-  };
-  const url = `https://v3.openstates.org/people?name=${req.body.name}&page=1&per_page=25&apikey=${process.env.OPEN_API_KEY}`;
-  try {
-    const response = await axios.get(url, config);
-    const jResponse = JSON.parse(response);
-    console.log(jResponse);
-    for (let i = 0; i < response.data.results.length; i++) {
-      nameArray.push(response.data.results[i].name);
+router.post("/", (req, res) => {
+  userStocksArr = [];
+  // const userStocks = res.locals.user.getStocks();
+  // for (let i = 0; i < userStocks.length; i++) {
+  //   userStocksArr.push(userStocks[i].dataValues.name);
+  // }
+  fs.readFile(
+    "./Resources/nasdaq-listed-stocks.json",
+    "utf8",
+    async (err, data) => {
+      const nasStocks = await JSON.parse(data);
+      const results = nasStocks.filter((element) =>
+        element["Company Name"].toLowerCase().includes(req.body.name)
+      );
+      console.log(req.body.name);
+      res.render("stocks.ejs", { results: results });
     }
-    res.render("officials.ejs", {
-      statesArr: statesArr,
-      nameArray: nameArray,
-      nameField: req.body.name,
-    });
-  } catch (err) {
-    console.log("ERROR!: ", err);
-  }
-});
-*/
-
-router.post("/", async (req, res) => {
-  userOfficialsArr = [];
-  const user = await db.user.findByPk(res.locals.user.id);
-  const userOfficials = await user.getOfficials();
-  for (let i = 0; i < userOfficials.length; i++) {
-    userOfficialsArr.push(userOfficials[i].dataValues.name);
-  }
-  nameArray = [];
-  fs.readFile("./Resources/openCongress.json", "utf8", (err, data) => {
-    const response = JSON.parse(data);
-    createOfficials(response);
-    res.render("officials.ejs", {
-      statesArr: statesArr,
-      officialsArr: officialsArr,
-      nameField: req.body.name,
-      userOfficialsArr: userOfficialsArr,
-    });
-  });
-});
-
-router.post("/add", async (req, res) => {
-  const user = await db.user.findByPk(res.locals.user.id);
-  try {
-    const [newOfficial, officialCreated] = await db.official.findOrCreate({
-      where: {
-        name: req.body.name,
-        position: req.body.position,
-        state: req.body.state,
-        party: req.body.party,
-      },
-    });
-    await user.addOfficial(newOfficial);
-  } catch (err) {
-    console.log("ERROR!: ", err);
-  }
-  res.redirect("/officials");
-});
-
-const url = "https://api.quiverquant.com/beta/live/congresstrading"; //https://api.quiverquant.com/beta/historical/congresstrading/aapl";
-const config = {
-  headers: {
-    accept: "application/json",
-    "X-CSRFToken":
-      "TyTJwjuEC7VV7mOqZ622haRaaUr0x0Ng4nrwSRFKQs7vdoBcJlK9qjAS69ghzhFu",
-    Authorization: "Token " + process.env.QUIV_API_KEY,
-  },
-};
-
-// axios.get(url, config).then((response) => {
-//   console.log(response.data[response.data.length - 1]);
-// });
-// ----------------------------------------------------
-
-router.get("/:name", async (req, res) => {
-  let officialTransactArr = [];
-  const name = req.params.name;
-  const response = await axios.get(url, config);
-  for (let i = 0; i < response.data.length; i++) {
-    if (response.data[i].Representative === name) {
-      officialTransactArr.push(response.data[i]);
-    } else {
-      continue;
-    }
-  }
-  console.log(officialTransactArr);
-  res.render("official_detail.ejs", {
-    name: req.params.name,
-    officialTransactArr: officialTransactArr,
-  });
+  );
 });
 
 module.exports = router;

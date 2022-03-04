@@ -58,7 +58,6 @@ router.post("/", async (req, res) => {
       process.env.SECRET
     );
     const encryptedUserIdString = encryptedUserId.toString();
-    console.log(encryptedUserIdString);
     // store the encrypted id in the cookie of the res obj
     res.cookie("userId", encryptedUserIdString);
     // redirect back to home page
