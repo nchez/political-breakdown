@@ -88,17 +88,18 @@ const config = {
 // });
 // ----------------------------------------------------
 
-// CONTROLLERS
-app.use("/users", require("./controllers/users.js"));
-app.use("/officials", require("./controllers/officials.js"));
-
 // ROUTES
 app.get("/", (req, res) => {
   res.render("home.ejs");
+
+  // CONTROLLERS
+  app.use("/users", require("./controllers/users.js"));
+  app.use("/officials", require("./controllers/officials.js"));
+  app.use("/stocks", require("./controllers/stocks.js"));
 });
 
 // check for an env PORT, otherwise use 8000
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Auth app running on ${PORT}`);
 });
