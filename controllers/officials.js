@@ -185,7 +185,7 @@ router.post("/add", async (req, res) => {
   res.redirect("/officials");
 });
 
-const url = "https://api.quiverquant.com/beta/historical/congresstrading/aapl";
+const url = "https://api.quiverquant.com/beta/live/congresstrading"; //https://api.quiverquant.com/beta/historical/congresstrading/aapl";
 const config = {
   headers: {
     accept: "application/json",
@@ -200,12 +200,22 @@ const config = {
 // });
 // ----------------------------------------------------
 
-router.get("/:name", (req, res) => {
-  // axios.get(url, config).then((response) => {
-  //   console.log(response.data[response.data.length - 1]);
-  // });
-  // ----------------------------------------------------
-  res.render("official_detail.ejs", { name: req.params.name });
+router.get("/:name", async (req, res) => {
+  let officialTransactArr = [];
+  const name = req.params.name;
+  const response = await axios.get(url, config);
+  for (let i = 0; i < response.data.length; i++) {
+    if (response.data[i].Representative === name) {
+      officialTransactArr.push(response.data[i]);
+    } else {
+      continue;
+    }
+  }
+  console.log(officialTransactArr);
+  res.render("official_detail.ejs", {
+    name: req.params.name,
+    officialTransactArr: officialTransactArr,
+  });
 });
 
 module.exports = router;
