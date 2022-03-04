@@ -62,6 +62,7 @@ const statesArr = [
 ];
 let nameField;
 let userOfficialsArr = [];
+let officialsArr = [];
 
 // class constructor for official
 class official {
@@ -104,6 +105,7 @@ router.get("/", async (req, res) => {
     statesArr: statesArr,
     nameArray,
     nameField,
+    officialsArr: officialsArr,
     userOfficialsArr: userOfficialsArr,
   });
 });
@@ -181,6 +183,29 @@ router.post("/add", async (req, res) => {
     console.log("ERROR!: ", err);
   }
   res.redirect("/officials");
+});
+
+const url = "https://api.quiverquant.com/beta/historical/congresstrading/aapl";
+const config = {
+  headers: {
+    accept: "application/json",
+    "X-CSRFToken":
+      "TyTJwjuEC7VV7mOqZ622haRaaUr0x0Ng4nrwSRFKQs7vdoBcJlK9qjAS69ghzhFu",
+    Authorization: "Token " + process.env.QUIV_API_KEY,
+  },
+};
+
+// axios.get(url, config).then((response) => {
+//   console.log(response.data[response.data.length - 1]);
+// });
+// ----------------------------------------------------
+
+router.get("/:name", (req, res) => {
+  // axios.get(url, config).then((response) => {
+  //   console.log(response.data[response.data.length - 1]);
+  // });
+  // ----------------------------------------------------
+  res.render("official_detail.ejs", { name: req.params.name });
 });
 
 module.exports = router;

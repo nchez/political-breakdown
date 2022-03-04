@@ -5,8 +5,34 @@ const bcrypt = require("bcrypt");
 const cryptojs = require("crypto-js");
 require("dotenv").config();
 
-router.get("/profile", (req, res) => {
-  res.render("users/profile.ejs");
+let userOfficialsArr = [];
+
+// class constructor for official
+class official {
+  constructor(name, position, state, party, id) {
+    this.name = name;
+    this.position = position;
+    this.state = state;
+    this.party = party;
+    this.id = id;
+  }
+}
+
+router.get("/profile", async (req, res) => {
+  userOfficialsArr = [];
+  const user = await db.user.findByPk(res.locals.user.id);
+  const userOfficials = await user.getOfficials();
+  for (let i = 0; i < userOfficials.length; i++) {
+    const name = userOfficials[i].dataValues.name;
+    const position = userOfficials[i].dataValues.position;
+    const state = userOfficials[i].dataValues.state;
+    const party = userOfficials[i].dataValues.party;
+    const id = userOfficials[i].dataValues.id;
+    const newOfficial = new official(name, position, state, party, id);
+    userOfficialsArr.push(newOfficial);
+  }
+  console.log(userOfficialsArr);
+  res.render("users/profile.ejs", { userOfficialsArr: userOfficialsArr });
 });
 
 router.get("/new", (req, res) => {

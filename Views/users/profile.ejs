@@ -1,1 +1,9 @@
 <h2>Hello <%= user.email %></h2>
+
+<h2>Congress Member Watchlist</h2>
+
+<ul>
+  <% userOfficialsArr.forEach(element => { %>
+  <li><a href="/officials/<%=element.name%>"> <%= element.name %> </a></li>
+  <% }) %>
+</ul>
