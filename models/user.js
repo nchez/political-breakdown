@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       models.user.belongsToMany(models.official, {
         through: "users_officials",
       });
+      models.user.belongsToMany(models.stock, {
+        through: "users_stocks",
+      });
     }
   }
   user.init(
