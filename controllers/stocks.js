@@ -10,6 +10,8 @@ let nameField;
 let userStocksArr = [];
 let stocksArr = [];
 let results = [];
+let name = "";
+let symbolName = "";
 
 // class constructor for stock
 class stock {
@@ -42,7 +44,11 @@ fs.readFile(
 );
 
 router.get("/", (req, res) => {
-  res.render("stocks.ejs", { results: results });
+  res.render("stocks.ejs", {
+    results: results,
+    name: name,
+    symbolName: symbolName,
+  });
 });
 
 // fs.readFile(
@@ -71,7 +77,11 @@ router.post("/", (req, res) => {
         element["Company Name"].toLowerCase().includes(req.body.name)
       );
       console.log(req.body.name);
-      res.render("stocks.ejs", { results: results });
+      res.render("stocks.ejs", {
+        results: results,
+        symbolName: req.body.symbol,
+        name: req.body.name,
+      });
     }
   );
 });
