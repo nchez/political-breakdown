@@ -86,4 +86,20 @@ router.post("/", (req, res) => {
   );
 });
 
+router.post("/add", async (req, res) => {
+  const user = await db.user.findByPk(res.locals.user.id);
+  try {
+    const [newStock, stockCreated] = await db.stock.findOrCreate({
+      where: {
+        name: req.body.name,
+        symbol: req.body.symbol,
+      },
+    });
+    await user.addStock(newStock);
+  } catch (err) {
+    console.log("ERROR!: ", err);
+  }
+  res.redirect("/stocks");
+});
+
 module.exports = router;
