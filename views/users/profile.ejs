@@ -12,6 +12,11 @@
 
 <ul>
   <% userStocksArr.forEach(element => { %>
-  <li><a href="/stocks/<%=element.symbol%>"> <%= element.name %> </a></li>
+  <li>
+    <a href="/stocks/<%=element.symbol%>"> <%= element.name %> </a>
+    <form action="/stocks/<%= element.symbol%>/?_method=DELETE" method="post">
+      <button type="submit">Delete</button>
+    </form>
+  </li>
   <% }) %>
 </ul>

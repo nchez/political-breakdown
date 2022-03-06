@@ -4,6 +4,10 @@ let router = express.Router();
 const axios = require("axios");
 const app = express(); // create an express instance
 const fs = require("fs");
+const methodOverride = require("method-override");
+
+router.use(methodOverride("_method")); // do we need this
+router.use(express.urlencoded({ extended: false })); // do we need this
 
 // DECLARE VARIABLES FOR RENDERING
 let nameField;
@@ -13,61 +17,68 @@ let results = [];
 let name = "";
 let symbolName = "";
 
-// class constructor for stock
+// class constructor for stock and fcn to create array of stock objects
+// NOT NEEDED??
 class stock {
   constructor(name, symbol) {
     this.name = name;
     this.symbol = symbol;
   }
 }
-
 function createStock(response) {
   stocksArr = [];
   for (let i = 0; i < response.results.length; i++) {
     const name = response.result[i].name;
     const symbol = response.symbol;
-    const createStock = new official(name, symbol);
+    const createStock = new stock(name, symbol);
     stocksArr.push(createStock);
   }
   return stocksArr;
 }
+// Sort Quiver API Results by Transaction Date (most recent to oldest)
+function sortResponseByTransactDate(response) {
+  response.forEach((element) => {
+    element.TransactionDate = Date.parse(element.TransactionDate);
+  });
+  response.sort((a, b) => {
+    return b.TransactionDate - a.TransactionDate;
+  });
+  response.forEach((element) => {
+    let newDate = new Date(element.TransactionDate);
+    element.TransactionDate = newDate
+      .toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replaceAll("/", "-");
+  });
+  return response;
+}
 
-// const urlFinn = `https://finnhub.io/api/v1/search?q=Apple&token=${process.env.FINN_API_KEY}`;
-// const responseFinn = await axios.get(urlFinn);
-// console.log(response.data.result);
-fs.readFile(
-  "./Resources/nasdaq-listed-stocks.json",
-  "utf8",
-  async (err, data) => {
-    await JSON.parse(data);
+// READ ROUTE FOR STOCK SEARCH
+router.get("/", async (req, res) => {
+  userStocksArr = [];
+  const user = await db.user.findByPk(res.locals.user.id);
+  const userStocks = await user.getStocks();
+  for (let i = 0; i < userStocks.length; i++) {
+    userStocksArr.push(userStocks[i].dataValues.name);
   }
-);
-
-router.get("/", (req, res) => {
   res.render("stocks.ejs", {
     results: results,
     name: name,
     symbolName: symbolName,
+    userStocksArr: userStocksArr,
   });
 });
 
-// fs.readFile(
-//   "./Resources/nasdaq-listed-stocks.json",
-//   "utf8",
-//   async (err, data) => {
-//     const nasStocks = await JSON.parse(data);
-//     const results = nasStocks.filter((element) =>
-//       element["Company Name"].toLowerCase().includes("appl")
-//     );
-//   }
-// );
-
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   userStocksArr = [];
-  // const userStocks = res.locals.user.getStocks();
-  // for (let i = 0; i < userStocks.length; i++) {
-  //   userStocksArr.push(userStocks[i].dataValues.name);
-  // }
+  const user = await db.user.findByPk(res.locals.user.id);
+  const userStocks = await user.getStocks();
+  for (let i = 0; i < userStocks.length; i++) {
+    userStocksArr.push(userStocks[i].dataValues.name);
+  }
   fs.readFile(
     "./Resources/nasdaq-listed-stocks.json",
     "utf8",
@@ -80,11 +91,13 @@ router.post("/", (req, res) => {
         results: results,
         symbolName: req.body.symbol,
         name: req.body.name,
+        userStocksArr: userStocksArr,
       });
     }
   );
 });
 
+// CREATE -- ADD STOCK TO USER's WATCHLIST
 router.post("/add", async (req, res) => {
   const user = await db.user.findByPk(res.locals.user.id);
   try {
@@ -101,6 +114,7 @@ router.post("/add", async (req, res) => {
   res.redirect("/stocks");
 });
 
+// READ ROUTE FOR SPECIFIC STOCK
 const config = {
   headers: {
     accept: "application/json",
@@ -109,45 +123,31 @@ const config = {
     Authorization: "Token " + process.env.QUIV_API_KEY,
   },
 };
-
-// axios.get(url, config).then((response) => {
-//   console.log(response.data[response.data.length - 1]);
-// });
-// ----------------------------------------------------
-
-function sortResponseByTransactDate(response) {
-  response.forEach((element) => {
-    element.TransactionDate = Date.parse(element.TransactionDate);
-  });
-  response.sort((a, b) => {
-    return a.TransactionDate - b.TransactionDate;
-  });
-  response.forEach((element) => {
-    let newDate = new Date(element.TransactionDate);
-    element.TransactionDate = newDate
-      .toLocaleString("en-US", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-      .replaceAll("/", "-");
-  });
-  return response;
-}
-
 router.get("/:symbol", async (req, res) => {
   const url = `https://api.quiverquant.com/beta/historical/congresstrading/${req.params.symbol}`;
   const response = await axios.get(url, config);
   const sortResponse = response.data;
   sortResponseByTransactDate(sortResponse);
-  console.log(sortResponse);
-  // for (let i = 0; i < response.data.length; i++) {
-  //   officialTransactArr.push(response.data[i]);
-  // }
   res.render("stock_detail.ejs", {
     name: req.params.symbol,
     sortResponse: sortResponse,
   });
+});
+
+// DELETE ROUTE
+router.delete("/:symbol", async (req, res) => {
+  const user = await db.user.findByPk(res.locals.user.id);
+  try {
+    const [deleteStock, stockCreated] = await db.stock.findOrCreate({
+      where: {
+        symbol: req.params.symbol,
+      },
+    });
+    await user.removeStock(deleteStock);
+  } catch (err) {
+    console.log("ERROR!: ", err);
+  }
+  res.redirect("/users/profile");
 });
 
 module.exports = router;

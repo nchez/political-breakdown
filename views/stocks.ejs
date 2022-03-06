@@ -36,7 +36,14 @@
       value="<%=
     element.Symbol %>"
     />
+    <% if (userStocksArr.includes(element["Company Name"])) { %>
+    <input type="button" value="Added" />
+    <form action="/stocks/<%= element.Symbol%>/?_method=DELETE" method="post">
+      <input type="submit" value="Remove from Watchlist" />
+    </form>
+    <% } else { %>
     <input type="submit" value="Add to Watchlist" />
+    <% } %>
   </form>
   <% }) %>
 </ul>

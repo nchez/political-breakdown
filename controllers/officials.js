@@ -201,7 +201,7 @@ const config = {
 // ----------------------------------------------------
 
 router.get("/:name", async (req, res) => {
-  let stockTransactArr = [];
+  let officialTransactArr = [];
   const name = req.params.name;
   const response = await axios.get(url, config);
   for (let i = 0; i < response.data.length; i++) {

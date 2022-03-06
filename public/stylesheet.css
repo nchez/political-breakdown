@@ -1,0 +1,25 @@
+.table-wrapper {
+  border: 1px solid gray;
+  width: 700px;
+  height: 500px;
+  overflow: auto;
+}
+
+table {
+  margin-right: 5px;
+}
+
+th {
+  height: 40px;
+}
+
+td {
+  background-color: #ccc;
+  height: 40px;
+}
+
+table,
+th,
+td {
+  border: 1px solid;
+}

@@ -1,23 +1,23 @@
 <h2><%= name %> Details</h2>
 <h3>What Trustworthy Congress Members Traded <%= name%></h3>
 
-<table>
-  <tr>
-    <th>Ticker</th>
-    <th>Representative Name</th>
-    <th>Transaction Type</th>
-    <th>Transaction Amount</th>
-    <th>Transaction Date</th>
-    <th>Report Date</th>
-  </tr>
-  <% sortResponse.forEach(element => { %>
-  <tr>
-    <td><%= element.Ticker %></td>
-    <td><%= element.Representative%></td>
-    <td><%= element.Transaction%></td>
-    <td><%= element.Range%></td>
-    <td><%= element.TransactionDate%></td>
-    <td><%= element.ReportDate%></td>
-  </tr>
-  <% }) %>
-</table>
+<div class="table-wrapper">
+  <table>
+    <tr>
+      <th>Ticker</th>
+      <th>Representative Name</th>
+      <th>Transaction Type</th>
+      <th>Transaction Amount</th>
+      <th>Date</th>
+    </tr>
+    <% sortResponse.forEach(element => { %>
+    <tr>
+      <td><%= element.Ticker %></td>
+      <td><%= element.Representative%></td>
+      <td><%= element.Transaction%></td>
+      <td><%= element.Range%></td>
+      <td><%= element.TransactionDate%></td>
+    </tr>
+    <% }) %>
+  </table>
+</div>

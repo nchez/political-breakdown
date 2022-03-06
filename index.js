@@ -11,11 +11,11 @@ const axios = require("axios");
 require("dotenv").config();
 
 // MIDDLEWARE
-app.use(express.static("public"));
 app.set("view engine", "ejs"); // set the view engine to ejs
 app.use(ejsLayouts); // tell express we want to use layouts
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use("/public", express.static("public")); //access to public css/js folders
 
 // CUSTOM LOGIN MIDDLEWARE
 app.use(async (req, res, next) => {
@@ -32,23 +32,6 @@ app.use(async (req, res, next) => {
   }
   next();
 });
-
-// QUERY WITH QUIV
-// Set up quiver url and headers
-const url = "https://api.quiverquant.com/beta/historical/congresstrading/aapl";
-const config = {
-  headers: {
-    accept: "application/json",
-    "X-CSRFToken":
-      "TyTJwjuEC7VV7mOqZ622haRaaUr0x0Ng4nrwSRFKQs7vdoBcJlK9qjAS69ghzhFu",
-    Authorization: "Token " + process.env.QUIV_API_KEY,
-  },
-};
-
-// axios.get(url, config).then((response) => {
-//   console.log(response.data[response.data.length - 1]);
-// });
-// ----------------------------------------------------
 
 // ROUTES
 app.get("/", (req, res) => {
