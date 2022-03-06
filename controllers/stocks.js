@@ -76,7 +76,6 @@ router.post("/", (req, res) => {
       const results = nasStocks.filter((element) =>
         element["Company Name"].toLowerCase().includes(req.body.name)
       );
-      console.log(req.body.name);
       res.render("stocks.ejs", {
         results: results,
         symbolName: req.body.symbol,
@@ -100,6 +99,55 @@ router.post("/add", async (req, res) => {
     console.log("ERROR!: ", err);
   }
   res.redirect("/stocks");
+});
+
+const config = {
+  headers: {
+    accept: "application/json",
+    "X-CSRFToken":
+      "TyTJwjuEC7VV7mOqZ622haRaaUr0x0Ng4nrwSRFKQs7vdoBcJlK9qjAS69ghzhFu",
+    Authorization: "Token " + process.env.QUIV_API_KEY,
+  },
+};
+
+// axios.get(url, config).then((response) => {
+//   console.log(response.data[response.data.length - 1]);
+// });
+// ----------------------------------------------------
+
+function sortResponseByTransactDate(response) {
+  response.forEach((element) => {
+    element.TransactionDate = Date.parse(element.TransactionDate);
+  });
+  response.sort((a, b) => {
+    return a.TransactionDate - b.TransactionDate;
+  });
+  response.forEach((element) => {
+    let newDate = new Date(element.TransactionDate);
+    element.TransactionDate = newDate
+      .toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replaceAll("/", "-");
+  });
+  return response;
+}
+
+router.get("/:symbol", async (req, res) => {
+  const url = `https://api.quiverquant.com/beta/historical/congresstrading/${req.params.symbol}`;
+  const response = await axios.get(url, config);
+  const sortResponse = response.data;
+  sortResponseByTransactDate(sortResponse);
+  console.log(sortResponse);
+  // for (let i = 0; i < response.data.length; i++) {
+  //   officialTransactArr.push(response.data[i]);
+  // }
+  res.render("stock_detail.ejs", {
+    name: req.params.symbol,
+    sortResponse: sortResponse,
+  });
 });
 
 module.exports = router;

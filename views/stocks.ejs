@@ -28,8 +28,14 @@
   <li><%= element["Company Name"] %></li>
   <form action="/stocks/add" method="POST">
     <input hidden type="hidden" name="name" value="<%= element["Company Name"]
-    %>" /> <input hidden type="hidden" name="symbol" value="<%=
-    element["Symbol"] %>" />
+    %>" />
+    <input
+      hidden
+      type="hidden"
+      name="symbol"
+      value="<%=
+    element.Symbol %>"
+    />
     <input type="submit" value="Add to Watchlist" />
   </form>
   <% }) %>

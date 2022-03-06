@@ -6,6 +6,7 @@ const cryptojs = require("crypto-js");
 require("dotenv").config();
 
 let userOfficialsArr = [];
+let userStocksArr = [];
 
 // class constructor for official
 class official {
@@ -18,8 +19,16 @@ class official {
   }
 }
 
+class stock {
+  constructor(name, symbol) {
+    this.name = name;
+    this.symbol = symbol;
+  }
+}
+
 router.get("/profile", async (req, res) => {
   userOfficialsArr = [];
+  userStocksArr = [];
   const user = await db.user.findByPk(res.locals.user.id);
   const userOfficials = await user.getOfficials();
   for (let i = 0; i < userOfficials.length; i++) {
@@ -31,8 +40,18 @@ router.get("/profile", async (req, res) => {
     const newOfficial = new official(name, position, state, party, id);
     userOfficialsArr.push(newOfficial);
   }
-  console.log(userOfficialsArr);
-  res.render("users/profile.ejs", { userOfficialsArr: userOfficialsArr });
+  const userStocks = await user.getStocks();
+  for (let i = 0; i < userStocks.length; i++) {
+    const name = userStocks[i].dataValues.name;
+    const symbol = userStocks[i].dataValues.symbol;
+    const newOfficial = new stock(name, symbol);
+    userStocksArr.push(newOfficial);
+  }
+  console.log(userStocksArr);
+  res.render("users/profile.ejs", {
+    userOfficialsArr: userOfficialsArr,
+    userStocksArr: userStocksArr,
+  });
 });
 
 router.get("/new", (req, res) => {

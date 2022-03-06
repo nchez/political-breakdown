@@ -7,3 +7,11 @@
   <li><a href="/officials/<%=element.name%>"> <%= element.name %> </a></li>
   <% }) %>
 </ul>
+
+<h2>Stock Watchlist</h2>
+
+<ul>
+  <% userStocksArr.forEach(element => { %>
+  <li><a href="/stocks/<%=element.symbol%>"> <%= element.name %> </a></li>
+  <% }) %>
+</ul>
