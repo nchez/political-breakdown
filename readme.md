@@ -4,14 +4,12 @@
 
 As a user, I want to:
 
-- Create or edit a watchlist political officials by:
-  - Entering my address (ideally just zipcode, working on this...) and populating the list with local representatives with an option for higher offices AND/OR
-  - Typing in an incumbent official and adding it to the list
+- Create or edit a watchlist of stocks by:
+  - Typing in a search term and adding it to the list
   - Clicking 'DELETE' or 'ADD' to perform the respective action on the list
 - Go to my profile (user) page and view my watchlist
-- Click on official's name to go to a breakdown page of the candidate
-  - View their stock portfolio, stock transactions
-  - More information on the candiate (party, wiki link, link to their socials and their website, ...)
+- Click on stock's name to go to a breakdown page of the stock
+  - View stock transactions by different elected officials
 
 ## WIREFRAMEs (WIP)
 
@@ -45,32 +43,32 @@ As a user, I want to:
 
 Ever wonder who's contributing to the really hip and cool politicians?? Well look no further than the Politcal Breakdown web app!
 
-Track what stocks your favorite local and federal politicians are trading! Add and delete from your watchlist to track those devious officials who are definitely voting with our best interests in mind!
-
-A leaderboard page summarizes who has the most contributions and by which category.
+Track what stocks your favorite local and federal politicians are trading! Add and delete from your watchlist to track stock transactions our devious officials (who are definitely voting with our best interests in mind) are making!
 
 ## DEVELOPMENT
 
 ### ROUTES
 
-| HTTP VERB | ROUTE                     | ACTION | USED FOR                     |
-| --------- | ------------------------- | ------ | ---------------------------- |
-| GET       | '/login'                  | index  | accessing log-in page        |
-| GET       | '/signup'                 | index  | accessing sign-up page       |
-| GET       | 'user/:id/watchlist'      | index  | accessing watchlist page     |
-| GET       | '/leaderboard'            | index  | accessing leaderboard page   |
-| GET       | '/:fedofficialid'         | index  | accessing person page        |
-| POST      | '/user/:id/watchlist/new' | create | add person to watchlist      |
-| DELETE    | '/user/:id/watchlist'     | delete | remove person from watchlist |
-| PUT       | '/user/:id/watchlist'     | update | replace person in watchlist  |
+| HTTP VERB | ROUTE                     | ACTION | USED FOR                        |
+| --------- | ------------------------- | ------ | ------------------------------- |
+| GET       | '/login'                  | index  | accessing log-in page           |
+| GET       | '/signup'                 | index  | accessing sign-up page          |
+| GET       | 'users/watchlist'         | index  | accessing watchlist page        |
+| GET       | '/officials'              | index  | accessing officials search page |
+| GET       | '/officials/:name'        | index  | accessing official page         |
+| GET       | '/stocks/:symbol'         | index  | accessing stock page            |
+| GET       | '/stocks'                 | index  | accessing stock search page     |
+| POST      | '/officials/add'          | create | add person to watchlist         |
+| POST      | '/stocks/add'             | create | add stock to watchlist          |
+| DELETE    | '/officials/:name/delete' | delete | remove person from watchlist    |
+| DELETE    | '/stocks/:symbol/delete'  | delete | remove stock from watchlist     |
+| PUT       | '/users/profile/changepw' | update | change user's password          |
 
 ### ERD
 
 ![an ERD of my project](./readme_docs/ERD.drawio.png)
 
 ### APIs and other TECHNOLOGY
-
-To find representatives and senators from a user's state, Google's Civic Information API will be used.
 
 To track stock transaction of the officials, Quiver API will be used. Shoutout ot QuiverQuant!
 
@@ -81,12 +79,12 @@ Plotly.js to make charts, graphs, and other cool views of data.
 ### MVP
 
 - Create login, signup, logout pages for users.
-- Create editable watchlist for users that will track officials.
-- Detailed stock transaction page with info on official
+- Create editable watchlist for users that will track stocks and officials.
+- Detailed stock page with what elected officials traded the stock
 
 ### STRETCH
 
-- Create editable watchlist for users that will track stocks
 - Detailed stock page with which officials own stocks and transaction history of stock
+- Detailed stock page with graphs and other visualizations
 - Leaderboards page with who has made the most trades and other cool stats
 - Cool dashboard page with quick info and stats
