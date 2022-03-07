@@ -120,7 +120,7 @@ const config = {
     accept: "application/json",
     "X-CSRFToken":
       "TyTJwjuEC7VV7mOqZ622haRaaUr0x0Ng4nrwSRFKQs7vdoBcJlK9qjAS69ghzhFu",
-    Authorization: process.env.QUIV_API_KEY,
+    Authorization: "Token " + process.env.QUIV_API_KEY,
   },
 };
 router.get("/:symbol", async (req, res) => {
