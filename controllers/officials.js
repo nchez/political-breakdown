@@ -7,59 +7,6 @@ const fs = require("fs");
 
 // DECLARE VARIABLES FOR RENDERING
 let nameArray = [];
-const statesArr = [
-  "AL",
-  "AK",
-  "AZ",
-  "AR",
-  "CA",
-  "CO",
-  "CT",
-  "DE",
-  "FL",
-  "GA",
-  "HI",
-  "ID",
-  "IL",
-  "IN",
-  "IA",
-  "KS",
-  "KY",
-  "LA",
-  "ME",
-  "MD",
-  "MA",
-  "MI",
-  "MN",
-  "MS",
-  "MO",
-  "MT",
-  "NE",
-  "NV",
-  "NH",
-  "NJ",
-  "NM",
-  "NY",
-  "NC",
-  "ND",
-  "OH",
-  "OK",
-  "OR",
-  "PA",
-  "RI",
-  "SC",
-  "SD",
-  "TN",
-  "TX",
-  "UT",
-  "VT",
-  "VA",
-  "WA",
-  "WV",
-  "WI",
-  "WY",
-  "",
-];
 let nameField;
 let userOfficialsArr = [];
 let officialsArr = [];
@@ -158,7 +105,6 @@ router.post("/", async (req, res) => {
     const response = JSON.parse(data);
     createOfficials(response);
     res.render("officials.ejs", {
-      statesArr: statesArr,
       officialsArr: officialsArr,
       nameField: req.body.name,
       userOfficialsArr: userOfficialsArr,

@@ -14,8 +14,6 @@ let nameField;
 let userStocksArr = [];
 let stocksArr = [];
 let results = [];
-let name = "";
-let symbolName = "";
 
 // class constructor for stock and fcn to create array of stock objects
 // NOT NEEDED??
@@ -66,8 +64,7 @@ router.get("/", async (req, res) => {
   }
   res.render("stocks.ejs", {
     results: results,
-    name: req.body.name,
-    symbolName: req.body.symbolName,
+    nameField: nameField,
     userStocksArr: userStocksArr,
   });
 });
@@ -87,12 +84,11 @@ router.post("/", async (req, res) => {
       const results = nasStocks.filter((element) =>
         element["Company Name"]
           .toLowerCase()
-          .includes(req.body.name.toLowerCase())
+          .includes(req.body.nameField.toLowerCase())
       );
       res.render("stocks.ejs", {
         results: results,
-        symbolName: req.body.symbol,
-        name: req.body.name,
+        nameField: req.body.nameField,
         userStocksArr: userStocksArr,
       });
     }
@@ -113,6 +109,8 @@ router.post("/add", async (req, res) => {
   } catch (err) {
     console.log("ERROR!: ", err);
   }
+  console.log(req.body.nameField);
+  console.log(results);
   res.redirect("/stocks");
 });
 
