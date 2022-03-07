@@ -1,27 +1,34 @@
-<h1>SEARCH FOR STOCK</h1>
+<h1>Search and Add STOCKS to Watchlist</h1>
+
 <form action="/stocks" method="POST">
-  <div class="form-group">
-    <label for="name">SEARCH BY NAME</label>
-    <input
-      type="text"
-      class="form-control"
-      id="name"
-      name="name"
-      value="<%= name %>"
-    />
+  <div class="row g-5">
+    <div class="col-sm-3">
+      <label for="name">SEARCH BY NAME</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        name="name"
+        value="<%= name %>"
+      />
+    </div>
+    <div class="col-sm-3">
+      <label for="symbol">SEARCH BY SYMBOL (ex. AAPL)</label>
+      <input
+        type="text"
+        class="form-control"
+        id="symbol"
+        name="symbol"
+        value="<%= symbolName %>"
+      />
+    </div>
   </div>
-  <div class="form-group">
-    <label for="symbol">SEARCH BY SYMBOL (ex. AAPL)</label>
-    <input
-      type="text"
-      class="form-control"
-      id="symbol"
-      name="symbol"
-      value="<%= symbolName %>"
-    />
+  <div id="submit">
+    <input type="submit" class="btn btn-primary" />
   </div>
-  <input type="submit" class="btn btn-primary" />
 </form>
+
+<h3>Search Results</h3>
 
 <ul>
   <% results.forEach(element => { %>

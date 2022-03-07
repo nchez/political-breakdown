@@ -11,15 +11,22 @@ table {
 
 th {
   height: 40px;
+  color: black;
 }
 
 td {
   background-color: #ccc;
   height: 40px;
+  color: black;
 }
 
 table,
 th,
 td {
   border: 1px solid;
+}
+
+#submit {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }

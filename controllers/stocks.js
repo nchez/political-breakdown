@@ -66,8 +66,8 @@ router.get("/", async (req, res) => {
   }
   res.render("stocks.ejs", {
     results: results,
-    name: name,
-    symbolName: symbolName,
+    name: req.body.name,
+    symbolName: req.body.symbolName,
     userStocksArr: userStocksArr,
   });
 });
