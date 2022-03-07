@@ -43,7 +43,7 @@ app.use("/users", require("./controllers/users.js"));
 app.use("/officials", require("./controllers/officials.js"));
 app.use("/stocks", require("./controllers/stocks.js"));
 
-// check for an env PORT, otherwise use 8000
+// check for an env PORT, otherwise use 3002
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Auth app running on ${PORT}`);
