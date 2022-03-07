@@ -19,12 +19,6 @@
   <li><%= element.name %></li>
   <form action="/officials/add" method="POST">
     <input hidden type="hidden" name="name" value="<%= element.name %>" />
-    <input
-      hidden
-      type="hidden"
-      name="position"
-      value="<%= element.position %>"
-    />
     <input hidden type="hidden" name="state" value="<%= element.state %>" />
     <input hidden type="hidden" name="party" value="<%= element.party %>" />
     <% if (userOfficialsArr.includes(element.name)) { %>

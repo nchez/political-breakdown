@@ -13,9 +13,8 @@ let officialsArr = [];
 
 // class constructor for official
 class official {
-  constructor(name, position, state, party) {
+  constructor(name, state, party) {
     this.name = name;
-    this.position = position;
     this.state = state;
     this.party = party;
   }
@@ -23,18 +22,17 @@ class official {
 
 function createOfficials(response) {
   officialsArr = [];
-  for (let i = 0; i < response.results.length; i++) {
+  for (let i = 0; i < response.data.results.length; i++) {
     if (
-      !response.results[i].current_role ||
-      response.results[i].jurisdiction.classification === "municipality"
+      !response.data.results[i].current_role ||
+      response.data.results[i].jurisdiction.classification === "municipality"
     ) {
       continue;
     } else {
-      const name = response.results[i].name;
-      const position = response.results[i].current_role.title;
-      const state = response.results[i].jurisdiction.name;
-      const party = response.results[i].party[0];
-      const createOfficial = new official(name, position, state, party);
+      const name = response.data.results[i].name;
+      const state = response.data.results[i].jurisdiction.name;
+      const party = response.data.results[i].party[0];
+      const createOfficial = new official(name, state, party);
       officialsArr.push(createOfficial);
     }
   }
@@ -100,7 +98,26 @@ router.post("/", async (req, res) => {
   for (let i = 0; i < userOfficials.length; i++) {
     userOfficialsArr.push(userOfficials[i].dataValues.name);
   }
-  nameArray = [];
+  officialsArr = [];
+  const config = {
+    headers: {
+      accept: "application/json",
+    },
+  };
+  const url = `https://v3.openstates.org/people?name=${req.body.name}&page=1&per_page=50&apikey=${process.env.OPEN_API_KEY}`;
+  try {
+    const response = await axios.get(url, config);
+    createOfficials(response);
+    console.log(officialsArr);
+    res.render("officials.ejs", {
+      userOfficialsArr: userOfficialsArr,
+      officialsArr: officialsArr,
+      nameField: req.body.name,
+    });
+  } catch (err) {
+    console.log("ERROR!: ", err);
+  }
+  /*
   fs.readFile("./Resources/openCongress.json", "utf8", (err, data) => {
     const response = JSON.parse(data);
     createOfficials(response);
@@ -110,6 +127,7 @@ router.post("/", async (req, res) => {
       userOfficialsArr: userOfficialsArr,
     });
   });
+  */
 });
 
 router.post("/add", async (req, res) => {
