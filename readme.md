@@ -41,7 +41,7 @@ As a user, I want to:
 
 ## BACKGROUND
 
-Ever wonder who's contributing to the really hip and cool politicians?? Well look no further than the Politcal Breakdown web app!
+Ever wonder what stocks our really hip and cool politicians are trading?? Well look no further than the Politcal Breakdown web app!
 
 Track what stocks your favorite local and federal politicians are trading! Add and delete from your watchlist to track stock transactions our devious officials (who are definitely voting with our best interests in mind) are making!
 

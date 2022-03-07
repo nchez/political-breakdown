@@ -85,7 +85,9 @@ router.post("/", async (req, res) => {
     async (err, data) => {
       const nasStocks = await JSON.parse(data);
       const results = nasStocks.filter((element) =>
-        element["Company Name"].toLowerCase().includes(req.body.name)
+        element["Company Name"]
+          .toLowerCase()
+          .includes(req.body.name.toLowerCase())
       );
       res.render("stocks.ejs", {
         results: results,
