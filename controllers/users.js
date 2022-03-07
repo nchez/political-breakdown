@@ -119,16 +119,22 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/changepw", async (req, res) => {
+  passMsg = "";
   res.render("users/changepw.ejs", { passMsg: passMsg });
 });
 
 router.put("/changepw", async (req, res) => {
   const user = await db.user.findByPk(res.locals.user.id);
   const newHashedPassword = bcrypt.hashSync(req.body.password, 10);
-  user.password = newHashedPassword;
-  await user.save();
-  passMsg = "Password successfully changed!";
-
+  // user.password = newHashedPassword;
+  // await user.save();
+  if (req.body.password === "") {
+    passMsg = "Please enter a new password!";
+  } else {
+    user.password = newHashedPassword;
+    user.save();
+    passMsg = "Password successfully changed!";
+  }
   res.render("users/changepw.ejs", {
     passMsg: passMsg,
   });

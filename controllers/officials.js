@@ -102,7 +102,6 @@ router.get("/", async (req, res) => {
     userOfficialsArr.push(userOfficials[i].dataValues.name);
   }
   res.render("officials.ejs", {
-    statesArr: statesArr,
     nameArray,
     nameField,
     officialsArr: officialsArr,
