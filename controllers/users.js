@@ -4,9 +4,13 @@ const db = require("../models");
 const bcrypt = require("bcrypt");
 const cryptojs = require("crypto-js");
 require("dotenv").config();
+const methodOverride = require("method-override");
+
+router.use(methodOverride("_method"));
 
 let userOfficialsArr = [];
 let userStocksArr = [];
+let passMsg = "";
 
 // class constructor for official
 class official {
@@ -112,6 +116,22 @@ router.post("/login", async (req, res) => {
     // redirect back to home page
     res.redirect("/");
   }
+});
+
+router.get("/changepw", async (req, res) => {
+  res.render("users/changepw.ejs", { passMsg: passMsg });
+});
+
+router.put("/changepw", async (req, res) => {
+  const user = await db.user.findByPk(res.locals.user.id);
+  const newHashedPassword = bcrypt.hashSync(req.body.password, 10);
+  user.password = newHashedPassword;
+  await user.save();
+  passMsg = "Password successfully changed!";
+
+  res.render("users/changepw.ejs", {
+    passMsg: passMsg,
+  });
 });
 
 router.get("/logout", (req, res) => {

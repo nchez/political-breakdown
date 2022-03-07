@@ -12,16 +12,6 @@
         value="<%= name %>"
       />
     </div>
-    <div class="col-sm-3">
-      <label for="symbol">SEARCH BY SYMBOL (ex. AAPL)</label>
-      <input
-        type="text"
-        class="form-control"
-        id="symbol"
-        name="symbol"
-        value="<%= symbolName %>"
-      />
-    </div>
   </div>
   <div id="submit">
     <input type="submit" class="btn btn-primary" />
@@ -31,8 +21,10 @@
 <h3>Search Results</h3>
 
 <ul>
-  <% results.forEach(element => { %>
-  <li><%= element["Company Name"] %></li>
+  <% if (results.length === 0) { %>
+  <li>NO RESULTS! Try changing your search term.</li>
+  <% } else { %> <% results.forEach(element => { %>
+  <li><%= element["Company Name"]%> (<%= element.Symbol%>)</li>
   <form action="/stocks/add" method="POST">
     <input hidden type="hidden" name="name" value="<%= element["Company Name"]
     %>" />
@@ -52,5 +44,5 @@
     <input type="submit" value="Add to Watchlist" />
     <% } %>
   </form>
-  <% }) %>
+  <% }) %> <% } %>
 </ul>

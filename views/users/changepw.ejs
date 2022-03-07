@@ -1,0 +1,9 @@
+<h2>Change Your Password</h2>
+<form action="/users/changepw/?_method=PUT" method="POST">
+  <label for="password">New Password</label>
+  <input type="password" name="password" id="password" />
+
+  <button type="submit">Change Password</button>
+</form>
+
+<h2><%= passMsg%></h2>

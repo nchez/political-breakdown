@@ -11,34 +11,6 @@
       value="<%= nameField%>"
     />
   </div>
-
-  <div class="form-group">
-    <label for="state">SEARCH BY STATE</label>
-    <select name="state" id="state" class="form-control">
-      <option value=""></option>
-      <% statesArr.forEach(function(state) { %>
-      <option value="<%= state %>"><%= state %></option>
-      <% }) %>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="position">SEARCH BY POSITION (REPRESENTATIVE OR SENATOR)</label>
-    <select name="position" id="position" class="form-control">
-      <option value=""></option>
-      <option value="REP">REP</option>
-      <option value="SEN">SEN</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="position">SEARCH BY PARTY</label>
-    <select name="position" id="position" class="form-control">
-      <option value=""></option>
-      <option value="D">D</option>
-      <option value="R">R</option>
-      <option value="I">I</option>
-    </select>
-  </div>
   <input type="submit" class="btn btn-primary" />
 </form>
 
