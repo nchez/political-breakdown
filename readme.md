@@ -1,5 +1,25 @@
 # Political Breakdown
 
+## INSTALL INSTRUCTIONS
+
+- Fork and clone the code, run `npm i`
+- Run `createdb project2` for non-WSL
+  - For WSL, run `create database project2`
+- Run `sequelize db:migrate`
+- There are two API keys required:
+  - Quiverquant API key: request access at https://api.quiverquant.com/
+    - The .env variable name is: QUIV_API_KEY
+  - Openstates.org API key: request access at https://openstates.org/accounts/login/?next=/accounts/profile/#apikey
+    - The .env variable name is: OPEN_API_KEY
+- Create a .env file and copy the keys into the file. Follow the .env format
+- Refer to https://www.npmjs.com/package/dotenv for more info
+  - In the .js files, refer to the .env keys as shown in the example below
+    - process.env.QUIV_API_KEY
+
+## DEPLOYMENT LINK
+
+https://political-breakdown.herokuapp.com/
+
 ## USER STORIES
 
 As a user, I want to:
